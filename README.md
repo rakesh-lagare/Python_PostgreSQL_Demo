@@ -30,3 +30,13 @@ Schema creation is also done in python using psycopg2 package
 
    1. Handling NaN values - Phone Numbers are not provided in customer csv file. So while inseerting data into database theses NaN valeus are converted into NULL values.
    2. Birth_Date in customer csv file has two types of date formats. And hence are converted into SQL date format before inserting into database.
+ 
+ ## 4. SQL query to generate the report
+            SELECT c.id_person,date_trunc('month', t.transaction_date) as month , sum(transaction_amount) as sum_of_transactions
+            FROM transaction t,customer c,account a
+            WHERE t.id_account = a.id_account and a.id_person = c.id_person and c.id_person in (345,1234)
+            and (t.transaction_date Between '2020-02-15' AND '2020-06-06')
+            GROUP BY  month,c.id_person
+            ORDER BY c.id_person,month DESC;
+ 
+  
